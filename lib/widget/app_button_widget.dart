@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insure_mate/helper/app_theme.dart';
+import 'package:insure_mate/theme/app_theme.dart';
 import 'package:insure_mate/theme/app_color.dart';
 
 class AppButton extends StatelessWidget {

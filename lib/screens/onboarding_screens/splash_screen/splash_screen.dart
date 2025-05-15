@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:insure_mate/helper/app_string.dart';
-import 'package:insure_mate/helper/app_theme.dart';
+import 'package:insure_mate/theme/app_theme.dart';
 import 'package:insure_mate/screens/onboarding_screens/tutorial_screen/tutorial_screen.dart';
 import 'package:insure_mate/theme/app_color.dart';
 
@@ -34,20 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         color: AppColor.primary,
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 18,
-            children: [
-              Text(
-                AppString.appName,
-                style: AppTextTheme.splashAppName,
-              ),
-              Text(
-                AppString.appTagline,
-                style: AppTextTheme.titleLarge.apply(color: Colors.white),
-              ),
-            ],
-          ),
+          child: Image.asset("assets/images/splash_icon.png")
         ),
       ),
     );
