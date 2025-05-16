@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insure_mate/theme/app_text_style.dart';
 import 'package:insure_mate/theme/app_theme.dart';
 import 'package:insure_mate/theme/app_color.dart';
 
@@ -15,17 +16,20 @@ class AppButton extends StatelessWidget {
 
     // TODO: implement build
     return SizedBox(
-      width: screenWidth - 50,
+      width: screenWidth,
       height: 50,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColor.primary,
           elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // <-- corner radius
+          ),
         ),
         child: Text(
           buttonName,
-          style: AppTextTheme.titleMedium.apply(color: Colors.white),
+          style: AppTextStyle.titleMedium.apply(color: Colors.white, fontWeightDelta: 1),
         ),
       ),
     );

@@ -5,4 +5,13 @@ class AppString {
   static const String welcomeToText = "Welcome to";
   static const String onboardingScreenInfoText = "Your personal assistant to track policies, premiums, and monthly commissions.";
   static const String letsGoText = "Let's Go";
+  static const String loginText = "Login";
+  static const String emailText = "Email";
+  static const String passwordText = "Password";
+  static const String forgotPasswordText = "Forgot Password?";
+  static const String orText = "Or";
+  static const String continueWithGoogleText = "Continue with Google";
+  static const String notRegisteredYetText = "Not Registered Yet?";
+  static const String registerHereText = "Register Here";
+
 }
