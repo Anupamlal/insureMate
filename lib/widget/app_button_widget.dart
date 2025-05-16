@@ -18,13 +18,16 @@ class AppButton extends StatelessWidget {
       width: screenWidth - 50,
       height: 50,
       child: ElevatedButton(
-          onPressed: onTap,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColor.primary,
-            elevation: 4,
-          ),
-          child: Text(buttonName, style: AppTextTheme.titleMedium.apply(color: Colors.white)),
+        onPressed: onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColor.primary,
+          elevation: 4,
         ),
+        child: Text(
+          buttonName,
+          style: AppTextTheme.titleMedium.apply(color: Colors.white),
+        ),
+      ),
     );
   }
 }

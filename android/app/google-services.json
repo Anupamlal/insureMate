@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "970560731907",
+    "project_id": "insuremate-f06f1",
+    "storage_bucket": "insuremate-f06f1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970560731907:android:c90c11aaa4eeca3e824736",
+        "android_client_info": {
+          "package_name": "com.fincover.insuremate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970560731907-hdr6i8ghsmitbe6v7rjn56t39jqithtr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fincover.insuremate",
+            "certificate_hash": "cb893a6313cac733bf90da2f95190dd090eef739"
+          }
+        },
+        {
+          "client_id": "970560731907-4gef4oaqm2oquggc2q8hvlnfka0nvpm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOZrTTJ59Y2Uw9AcEPX4i43vZa286wRIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970560731907-4gef4oaqm2oquggc2q8hvlnfka0nvpm0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

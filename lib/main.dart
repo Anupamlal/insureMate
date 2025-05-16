@@ -1,8 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:insure_mate/screens/onboarding_screens/splash_screen/splash_screen.dart';
 import 'package:insure_mate/theme/app_color.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // We're using the manual installation on non-web platforms since Google sign in plugin doesn't yet support Dart initialization.
+  // See related issue: https://github.com/flutter/flutter/issues/96391
+
+  // We store the app and auth to make testing with a named instance easier.
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
