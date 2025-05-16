@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:insure_mate/helper/app_string.dart';
@@ -14,7 +15,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -34,7 +34,17 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         color: AppColor.primary,
         child: Center(
-          child: Image.asset("assets/images/splash_icon.png")
+          child: Center(
+            child: SizedBox(
+              child:
+                  Platform.isIOS
+                      ? Image.asset("assets/images/splash_icon_ios.png")
+                      : Image.asset(
+                        "assets/images/splash_icon.png",
+                        width: 288,
+                      ),
+            ),
+          ),
         ),
       ),
     );
