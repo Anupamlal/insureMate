@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insure_mate/helper/app_string.dart';
+import 'package:insure_mate/screens/afterlogin_screens/home_sceeen/home_screen.dart';
+import 'package:insure_mate/screens/onboarding_screens/login_screen/service/login_service.dart';
 import 'package:insure_mate/theme/app_color.dart';
 import 'package:insure_mate/theme/app_text_style.dart';
-import 'package:insure_mate/theme/app_theme.dart';
 import 'package:insure_mate/widget/app_button_widget.dart';
 import 'package:insure_mate/widget/app_textfield_widget.dart';
 import 'package:insure_mate/widget/social_media_button_widget.dart';
@@ -89,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 15),
         
               SocialMediaButton(socialMediaImage: "assets/images/google.png", socialMediaButtonName: AppString.continueWithGoogleText, onTap: (){
-                print("Initiate Google Login");
+                proceedWithGoogleSignIn();
               }),
         
               SizedBox(height: 30),
@@ -108,5 +109,17 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+  
+  void proceedWithGoogleSignIn() async{
+    bool isLoggedInSuccessful = await LoginService.signUpUsingGoogle();
+    
+    if (isLoggedInSuccessful) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login successful")));
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    }else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login failed")));
+    }
   }
 }
