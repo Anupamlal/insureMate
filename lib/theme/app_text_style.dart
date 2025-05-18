@@ -27,6 +27,10 @@ class AppTextStyle {
     fontSize: 16,
     fontWeight: FontWeight.w400,
   );
+  static const TextStyle selectedBottomNavItem = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+  );
   static const TextStyle bodyMedium = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,

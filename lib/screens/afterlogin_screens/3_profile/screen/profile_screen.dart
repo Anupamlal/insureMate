@@ -2,22 +2,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:insure_mate/widget/app_button_widget.dart';
+import 'package:insure_mate/helper/app_string.dart';
+import 'package:insure_mate/screens/onboarding_screens/login_screen/login_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+import '../../../../widget/app_button_widget.dart';
+
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text(AppString.profileText),
       ),
       body: Center(
         child: Padding(
@@ -30,6 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
               AppButton(buttonName: "Logout", onTap: () async {
                 await GoogleSignIn().signOut();
                 await FirebaseAuth.instance.signOut();
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => LoginScreen()),
+                      (route) => false,
+                );
               })
             ],
           ),

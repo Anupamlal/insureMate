@@ -13,5 +13,8 @@ class AppString {
   static const String continueWithGoogleText = "Continue with Google";
   static const String notRegisteredYetText = "Not Registered Yet?";
   static const String registerHereText = "Register Here";
+  static const String homeText = "Home";
+  static const String searchText = "Search";
+  static const String profileText = "Profile";
 
 }

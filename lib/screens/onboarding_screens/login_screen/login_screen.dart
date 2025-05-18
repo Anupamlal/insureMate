@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insure_mate/helper/app_string.dart';
-import 'package:insure_mate/screens/afterlogin_screens/home_sceeen/home_screen.dart';
+import 'package:insure_mate/screens/afterlogin_screens/0_bottom_navigation_screen/bottom_navigation_screen.dart';
 import 'package:insure_mate/screens/onboarding_screens/login_screen/service/login_service.dart';
 import 'package:insure_mate/theme/app_color.dart';
 import 'package:insure_mate/theme/app_text_style.dart';
@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (isLoggedInSuccessful) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login successful")));
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomNavigationScreen()));
     }else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login failed")));
     }

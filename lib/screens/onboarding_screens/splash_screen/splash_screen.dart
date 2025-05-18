@@ -3,9 +3,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:insure_mate/helper/app_string.dart';
-import 'package:insure_mate/screens/afterlogin_screens/home_sceeen/home_screen.dart';
-import 'package:insure_mate/theme/app_theme.dart';
+import 'package:insure_mate/screens/afterlogin_screens/0_bottom_navigation_screen/bottom_navigation_screen.dart';
 import 'package:insure_mate/screens/onboarding_screens/tutorial_screen/tutorial_screen.dart';
 import 'package:insure_mate/theme/app_color.dart';
 
@@ -24,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(Duration(seconds: 3), (){
       Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (context) => FirebaseAuth.instance.currentUser == null ? TutorialScreen() : HomeScreen()
+          builder: (context) => FirebaseAuth.instance.currentUser == null ? TutorialScreen() : BottomNavigationScreen()
       ));
     });
   }
