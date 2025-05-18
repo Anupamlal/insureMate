@@ -27,7 +27,6 @@ class FirebaseService {
   }
 
   static Future<PersonModel?> saveUserProfileOnFirebase() async {
-
     final currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null && currentUser.email != null) {
