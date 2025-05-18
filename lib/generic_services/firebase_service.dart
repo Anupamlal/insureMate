@@ -26,7 +26,7 @@ class FirebaseService {
     return false;
   }
 
-  static Future<bool> saveUserProfileOnFirebase() async {
+  static Future<PersonModel?> saveUserProfileOnFirebase() async {
 
     final currentUser = FirebaseAuth.instance.currentUser;
 
@@ -40,9 +40,9 @@ class FirebaseService {
 
       await dbRef.child(FirebaseKeys.users).child(emailAsID).child(FirebaseKeys.userInfo).set(person.toJson());
 
-      return true;
+      return person;
     }
 
-    return false;
+    return null;
   }
 }

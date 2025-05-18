@@ -9,18 +9,18 @@ class PersonModel {
   PersonModel({this.fullName = "", this.email = "", required this.id, this.profilePhotoURL = null});
 
   factory PersonModel.fromJSON(Map<String, dynamic> json){
-    final String fullName = json["fullName"];
+    final String fullName = json["full_name"];
     final String email = json["email"];
-    final String id = json["id"];
-    String? profilePhotoURL = json["profilePhotoURL"];
+    final String id = json["person_id"];
+    String? profilePhotoURL = json["profile_photo_url"];
 
     return PersonModel(id: id, fullName: fullName, email: email, profilePhotoURL: profilePhotoURL);
   }
 
   Map<String, dynamic> toJson() => {
-    'fullName': fullName,
+    'full_name': fullName,
     'email': email,
-    'id': id,
-    'profilePhotoURL': profilePhotoURL,
+    'person_id': id,
+    'profile_photo_url': profilePhotoURL,
   };
 }
