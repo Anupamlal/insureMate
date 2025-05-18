@@ -38,7 +38,7 @@ class FirebaseService {
 
       final dbRef = FirebaseDatabase.instance.ref();
 
-      await dbRef.child(FirebaseKeys.users).child(emailAsID).set(person.toJson());
+      await dbRef.child(FirebaseKeys.users).child(emailAsID).child(FirebaseKeys.userInfo).set(person.toJson());
 
       return true;
     }
