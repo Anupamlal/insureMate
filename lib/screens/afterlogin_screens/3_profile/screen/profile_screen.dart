@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             spacing: 25,
             children: [
               Text(FirebaseAuth.instance.currentUser?.email != null ? FirebaseAuth.instance.currentUser?.email as String : "No email"),
-              AppButton(buttonName: "Logout", onTap: () async {
+              AppButton(buttonName: AppString.logoutText, onTap: () async {
                 await GoogleSignIn().signOut();
                 await FirebaseAuth.instance.signOut();
 

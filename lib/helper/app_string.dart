@@ -16,5 +16,7 @@ class AppString {
   static const String homeText = "Home";
   static const String searchText = "Search";
   static const String profileText = "Profile";
+  static const String hiText = "Hi";
+  static const String logoutText = "Logout";
 
 }
