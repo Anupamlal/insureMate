@@ -37,6 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final dueList = [
+      {"name": 'Sunita Sharma', "premium": '₹5,000', "due_date": '21 May'},
+      {"name": 'Rajiv Mehta', "premium": '₹2,500', "due_date": '23 May'},
+      // Add more entries here
+    ];
+
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -69,27 +75,25 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: 24.0,
             ),
             child: Column(
+              spacing: 15,
+
               children: [
                 MonthHighlightWidget(
                   premiumDueText: "₹85,000",
                   premiumPaidText: "₹35,000",
                   newPoliciesText: "5 ${AppString.addedText}",
                 ),
-                PremiumDueWidget(),
+
+                PremiumDueWidget(
+                  arrOfDuePremium: dueList,
+                  seeAllPremiumCallback: goToAllDuePremiumsList,
+                ),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  void profileImageTap() {
-    widget.changeTabCallback(2);
-  }
-
-  void notificationsTap() {
-    print("Go to Notifications");
   }
 
   Widget getProfileImage() {
@@ -110,4 +114,14 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
   }
+
+  void profileImageTap() {
+    widget.changeTabCallback(2);
+  }
+
+  void notificationsTap() {
+    print("Go to Notifications");
+  }
+
+  void goToAllDuePremiumsList() {}
 }

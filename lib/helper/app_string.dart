@@ -25,5 +25,7 @@ class AppString {
   static const String thisMonthText = "This Month";
   static const String soFarText = "So Far";
   static const String addedText = "Added";
+  static const String seeAllDuePremiumsText = "See All Due Premiums";
+  static const String noPremiumDueText = "No Premium Due";
 
 }
