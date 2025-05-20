@@ -30,6 +30,7 @@ class AppString {
   static const String premiumDueInText = "Premium Due in";
   static const String estimatedCommissionText = "Estimated Commission";
   static const String fromLastMonthText = "from last month";
+  static const String youAreYetToStartText = "You are yet to start!";
 
 
 }

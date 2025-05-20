@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   seeAllPremiumCallback: goToAllDuePremiumsList,
                 ),
 
-                EstimatedCommissionWidget()
+                EstimatedCommissionWidget(estimatedCommission: "₹35,000", gainOrLossPercentage: "10", commissionStatus: CommissionStatus.gained)
               ],
             ),
           ),
