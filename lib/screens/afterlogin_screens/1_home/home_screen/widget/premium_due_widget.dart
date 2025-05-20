@@ -36,7 +36,7 @@ class _PremiumDueWidgetState extends State<PremiumDueWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Premium Due in ${AppHelper.monthNames[DateTime.now().month - 1]}",
+              "${AppString.premiumDueInText} ${AppHelper.monthNames[DateTime.now().month - 1]}",
               style: AppTextStyle.titleLargeSemiBold,
             ),
 

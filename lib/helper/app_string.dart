@@ -26,6 +26,10 @@ class AppString {
   static const String soFarText = "So Far";
   static const String addedText = "Added";
   static const String seeAllDuePremiumsText = "See All Due Premiums";
-  static const String noPremiumDueText = "No Premium Due";
+  static const String noPremiumDueText = "No Due Premiums";
+  static const String premiumDueInText = "Premium Due in";
+  static const String estimatedCommissionText = "Estimated Commission";
+  static const String fromLastMonthText = "from last month";
+
 
 }

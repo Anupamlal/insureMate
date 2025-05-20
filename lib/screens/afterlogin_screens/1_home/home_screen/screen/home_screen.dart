@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:insure_mate/helper/app_string.dart';
 import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/service/home_service.dart';
+import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/widget/estimated_commission_widget.dart';
 import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/widget/month_highlight_widget.dart';
 import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/widget/premium_due_widget.dart';
 import 'package:insure_mate/theme/app_color.dart';
@@ -65,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       body: Container(
+        height: MediaQuery.of(context).size.height,
         color: Color(0xFFFAFAFA),
         child: SingleChildScrollView(
           child: Padding(
@@ -88,6 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   arrOfDuePremium: dueList,
                   seeAllPremiumCallback: goToAllDuePremiumsList,
                 ),
+
+                EstimatedCommissionWidget()
               ],
             ),
           ),
