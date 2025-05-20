@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:insure_mate/helper/app_string.dart';
 import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/service/home_service.dart';
-import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/widget/premium_highlight_widget.dart';
+import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/widget/month_highlight_widget.dart';
+import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/widget/premium_due_widget.dart';
 import 'package:insure_mate/theme/app_color.dart';
 import 'package:insure_mate/widget/app_button_widget.dart';
 import 'package:insure_mate/widget/app_person_image_widget.dart';
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: AppPersonImageWidget(currentUserImage: homeService.currentUserImage ?? "", profileImageTap: profileImageTap),
+          child: getProfileImage(),
         ),
         title: Center(
           child: Text(
@@ -61,10 +62,20 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Color(0xFFFAFAFA),
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(left: 14.0, top: 24.0, right: 14.0, bottom: 24.0),
+            padding: const EdgeInsets.only(
+              left: 14.0,
+              top: 24.0,
+              right: 14.0,
+              bottom: 24.0,
+            ),
             child: Column(
               children: [
-                PremiumHighlightWidget()
+                MonthHighlightWidget(
+                  premiumDueText: "₹85,000",
+                  premiumPaidText: "₹35,000",
+                  newPoliciesText: "5 ${AppString.addedText}",
+                ),
+                PremiumDueWidget(),
               ],
             ),
           ),
@@ -79,5 +90,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void notificationsTap() {
     print("Go to Notifications");
+  }
+
+  Widget getProfileImage() {
+    if (homeService.currentUserImage != null &&
+        homeService.currentUserImage!.isNotEmpty) {
+      return AppPersonImageWidget(
+        currentUserImage: homeService.currentUserImage ?? "",
+        profileImageTap: profileImageTap,
+      );
+    } else {
+      return InkWell(
+        onTap: profileImageTap,
+        child: CircleAvatar(
+          radius: 20,
+          backgroundColor: Colors.grey.shade300,
+          child: Icon(Icons.person, color: Colors.white),
+        ),
+      );
+    }
   }
 }

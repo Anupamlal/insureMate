@@ -11,6 +11,8 @@ class AppColor {
   static const Color textSecondary = Color(0xFF757575);
   static const Color error = Color(0xFFE63946);
 
+  //Color(0xFF1A237E)
+
   static const int _primaryValue = 0xFF1D3557;
   static const MaterialColor primarySwatch = MaterialColor(
     _primaryValue,

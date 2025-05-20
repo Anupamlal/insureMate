@@ -18,5 +18,12 @@ class AppString {
   static const String profileText = "Profile";
   static const String hiText = "Hi";
   static const String logoutText = "Logout";
+  static const String monthHighlightsText = "Month Highlights";
+  static const String premiumDueText = "Premium Due";
+  static const String premiumPaidText = "Premium Paid";
+  static const String newPoliciesText = "New Policies";
+  static const String thisMonthText = "This Month";
+  static const String soFarText = "So Far";
+  static const String addedText = "Added";
 
 }

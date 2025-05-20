@@ -23,6 +23,10 @@ class AppPersonImageWidget extends StatelessWidget {
             imageUrl: currentUserImage,
             fadeInDuration: Duration(microseconds: 0),
             fadeOutDuration: Duration(microseconds: 0),
+            placeholder: (context, url) => CircleAvatar(
+              backgroundColor: Colors.grey.shade300,
+              child: Icon(Icons.person, color: Colors.white),
+            ),
           ),
         ),
       ),
