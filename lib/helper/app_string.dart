@@ -31,6 +31,7 @@ class AppString {
   static const String estimatedCommissionText = "Estimated Commission";
   static const String fromLastMonthText = "from last month";
   static const String youAreYetToStartText = "You are yet to start!";
+  static const String addPolicyText = "Add Policy";
 
 
 }

@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:insure_mate/helper/app_string.dart';
+import 'package:insure_mate/screens/afterlogin_screens/1_home/add_policy_screen/screen/add_policy_screen.dart';
 import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/service/home_service.dart';
 import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/widget/estimated_commission_widget.dart';
 import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/widget/month_highlight_widget.dart';
 import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/widget/premium_due_widget.dart';
+import 'package:insure_mate/screens/afterlogin_screens/3_profile/screen/profile_screen.dart';
 import 'package:insure_mate/theme/app_color.dart';
 import 'package:insure_mate/widget/app_button_widget.dart';
 import 'package:insure_mate/widget/app_person_image_widget.dart';
@@ -51,12 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(8.0),
           child: getProfileImage(),
         ),
-        title: Center(
-          child: Text(
+        centerTitle: true,
+        title: Text(
             "${AppString.hiText}, ${homeService.currentUserFirstName}",
             style: TextStyle(fontWeight: FontWeight.w500),
           ),
-        ),
         actions: [
           IconButton(
             onPressed: notificationsTap,
@@ -91,11 +92,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   seeAllPremiumCallback: goToAllDuePremiumsList,
                 ),
 
-                EstimatedCommissionWidget(estimatedCommission: "₹35,000", gainOrLossPercentage: "10", commissionStatus: CommissionStatus.gained)
+                EstimatedCommissionWidget(
+                  estimatedCommission: "₹35,000",
+                  gainOrLossPercentage: "10",
+                  commissionStatus: CommissionStatus.gained,
+                ),
               ],
             ),
           ),
         ),
+      ),
+
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: fabButtonTap,
+        icon: Icon(Icons.add),
+        label: Text(AppString.addPolicyText),
       ),
     );
   }
@@ -128,4 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void goToAllDuePremiumsList() {}
+
+  void fabButtonTap(){
+    showCupertinoModalPopup(context: context, builder: (context) => AddPolicyScreen());
+  }
+
 }
