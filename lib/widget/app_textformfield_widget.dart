@@ -15,6 +15,7 @@ class AppTextFormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final VoidCallback? onTap;
   final bool readOnly;
+  final TextCapitalization? textCapitalization;
 
   const AppTextFormField({
     super.key,
@@ -26,7 +27,8 @@ class AppTextFormField extends StatelessWidget {
     this.validator,
     this.inputFormatters,
     this.onTap,
-    this.readOnly = false
+    this.readOnly = false,
+    this.textCapitalization
   });
 
   @override
@@ -39,7 +41,7 @@ class AppTextFormField extends StatelessWidget {
       cursorColor: AppColor.secondary,
       style: AppTextStyle.bodyMedium,
       keyboardType: textInputType,
-      textCapitalization: TextCapitalization.words,
+      textCapitalization: textCapitalization ?? TextCapitalization.none,
       autovalidateMode: autoValidateMode ?? AutovalidateMode.disabled,
       decoration: InputDecoration(
         labelText: placeholderText,

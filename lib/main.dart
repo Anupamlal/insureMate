@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:insure_mate/db_helper/shared_preference/app_shared_preference.dart';
+import 'package:insure_mate/providers/policy_provider/policy_provider.dart';
+import 'package:insure_mate/screens/afterlogin_screens/1_home/add_policy_screen/service/add_policy_service.dart';
 import 'package:insure_mate/screens/onboarding_screens/splash_screen/splash_screen.dart';
 import 'package:insure_mate/theme/app_color.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,8 +15,32 @@ void main() async {
 
   // We store the app and auth to make testing with a named instance easier.
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  await checkFirstRunAndForceLogoutIfNeeded();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => PolicyProvider()),
+        ChangeNotifierProvider(
+          create:
+              (context) => AddPolicyService(
+                policyProvider: context.read<PolicyProvider>(),
+              ),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
+
+Future<void> checkFirstRunAndForceLogoutIfNeeded() async {
+  final loggedInPersonID = await AppSharedPreference.getLoggedInPersonId();
+
+  if (loggedInPersonID == null) {
+    await FirebaseAuth.instance.signOut();
+  }
+}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -39,7 +68,7 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: AppColor.primarySwatch
+          primarySwatch: AppColor.primarySwatch,
         ),
         fontFamily: 'Poppins',
       ),

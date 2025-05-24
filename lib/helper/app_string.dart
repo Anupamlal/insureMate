@@ -32,6 +32,26 @@ class AppString {
   static const String fromLastMonthText = "from last month";
   static const String youAreYetToStartText = "You are yet to start!";
   static const String addPolicyText = "Add Policy";
-
-
+  static const String policyholderNameText = "Policyholder Name";
+  static const String policyholderNameErrorText = "Please enter the policyholder name";
+  static const String policyNumberText = "Policy Number";
+  static const String phoneNumberText = "Phone Number";
+  static const String policyNumberErrorText = "Please enter the policy number";
+  static const String phoneNumberErrorText = "Please enter the phone number";
+  static const String policyNumberLengthErrorText = "Policy number must be of 9 digits";
+  static const String phoneNumberLengthErrorText = "Phone number must be of 10 digits";
+  static const String premiumAmountText = "Premium Amount";
+  static const String premiumAmountErrorText = "Please enter the premium amount";
+  static const String premiumAmountNotZeroErrorText = "Premium amount can't be 0";
+  static const String premiumModeText = "Premium Mode";
+  static const String premiumModeErrorText = "Please select premium mode";
+  static const String startDateText = "Start Date";
+  static const String startDateErrorText = "Please select the start date";
+  static const String fupDateText = "FUP Date";
+  static const String notesText = "Notes";
+  static const String submitText = "Submit";
+  static const String yearlyText = "Yearly";
+  static const String halfYearlyText = "Half Yearly";
+  static const String quarterlyText = "Quarterly";
+  static const String monthlyText = "Monthly";
 }
