@@ -46,6 +46,21 @@ class _AddPolicyScreenState extends State<AddPolicyScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _policyholderNameController.dispose();
+    _policyNumberController.dispose();
+    _phoneNumberController.dispose();
+    _premiumAmountController.dispose();
+    _startDateController.dispose();
+    _fupDateController.dispose();
+    _notesController.dispose();
+    _startDateDateTime = null;
+    _FUPDateTime = null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
@@ -267,7 +282,7 @@ class _AddPolicyScreenState extends State<AddPolicyScreen> {
 
   void submitButtonTap() async {
     if (_formGlobalKey.currentState!.validate()) {
-      FocusScope.of(context).unfocus();
+      FocusManager.instance.primaryFocus?.unfocus();
 
       final policyholderName = _policyholderNameController.text;
       final policyNo = _policyNumberController.text;
@@ -291,8 +306,8 @@ class _AddPolicyScreenState extends State<AddPolicyScreen> {
         nextDueDate = dueDate.millisecondsSinceEpoch;
       }
 
-      final _addPolicyService = context.read<AddPolicyService>();
-      bool isSucceeded = await _addPolicyService.addPolicy(
+      final addPolicyService = context.read<AddPolicyService>();
+      bool isSucceeded = await addPolicyService.addPolicy(
         Policy(
           policyholderName,
           policyNo,

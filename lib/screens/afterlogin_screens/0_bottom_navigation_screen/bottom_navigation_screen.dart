@@ -60,6 +60,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   }
 
   void _onItemTapped(int selectedIndex) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    print("Focus unfocused");
+
     setState(() {
       _currentSelectedIndex = selectedIndex;
     });

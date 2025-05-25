@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
               AppButton(
                 buttonName: AppString.loginText,
                 onTap: () {
-                  FocusScope.of(context).unfocus();
+                  FocusManager.instance.primaryFocus?.unfocus();
                 },
               ),
         
