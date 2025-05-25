@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insure_mate/helper/app_string.dart';
+import 'package:insure_mate/providers/policy_provider/policy_provider.dart';
 import 'package:insure_mate/screens/afterlogin_screens/1_home/home_screen/screen/home_screen.dart';
 import 'package:insure_mate/screens/afterlogin_screens/2_search/screen/search_screen.dart';
 import 'package:insure_mate/screens/afterlogin_screens/3_profile/screen/profile_screen.dart';
 import 'package:insure_mate/theme/app_text_style.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
   @override
@@ -20,6 +22,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    context.read<PolicyProvider>().fetchAllPolicies();
 
     _allWidgets = [
       HomeScreen(changeTabCallback: _onItemTapped),

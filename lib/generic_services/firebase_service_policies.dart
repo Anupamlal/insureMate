@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:insure_mate/generic_models/policy_model.dart';
 import 'package:insure_mate/helper/firebase_keys.dart';
 
@@ -20,5 +21,15 @@ class FirebaseServicePolicies {
 
     return true;
 
+  }
+
+  static Future<CollectionReference<Map<String, dynamic>>> getDatabaseRefForListener() async{
+
+    final loggedInUserID = await AppSharedPreference.getLoggedInPersonId();
+
+    return FirebaseFirestore.instance
+        .collection(FirebaseKeys.users)
+        .doc(loggedInUserID)
+        .collection(FirebaseKeys.policies);
   }
 }

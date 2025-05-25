@@ -74,11 +74,13 @@ class Policy {
 
     final PremiumMode premiumMode = PremiumMode.getFrom(premiumModeStr);
     final int startDate = json["start_date"];
-    int? fupDate = json["fup_date"];
+    final fupDate = json["fup_date"];
     final String notes = json["notes"];
     final int nextDueDate = json["next_due_date"];
-    final int isUploaded = json["is_uploaded"];
+    int? isUploaded = json["is_uploaded"];
     final String? phoneNumber = json["phone_number"];
+
+    int? finalFupDate = fupDate != null ? int.parse(fupDate) : null;
 
     final policy = Policy(
       policyholderName,
@@ -86,7 +88,7 @@ class Policy {
       premiumAmount,
       premiumMode,
       startDate,
-      fupDate,
+      finalFupDate,
       notes,
       nextDueDate,
       phoneNumber,
@@ -96,7 +98,7 @@ class Policy {
     return policy;
   }
 
-  Map<String, dynamic> toJson({bool isForFirebase = false})  {
+  Map<String, dynamic> toJson({bool isForFirebase = false}) {
     var json = {
       'policyholder_name': policyholderName,
       'policy_no': policyNo,
@@ -110,7 +112,7 @@ class Policy {
     };
 
     if (!isForFirebase) {
-      json['is_uploaded'] =  isUploaded ? 1 : 0;
+      json['is_uploaded'] = isUploaded ? 1 : 0;
     }
 
     return json;

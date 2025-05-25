@@ -21,11 +21,11 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => PolicyProvider()),
-        ChangeNotifierProvider(
-          create:
-              (context) => AddPolicyService(
-                policyProvider: context.read<PolicyProvider>(),
-              ),
+
+        ChangeNotifierProxyProvider<PolicyProvider, AddPolicyService>(
+          create: (_) => AddPolicyService(),
+          update: (_, policyProvider, addPolicyService) =>
+          addPolicyService!..update(policyProvider),
         ),
       ],
       child: MyApp(),
@@ -36,7 +36,7 @@ void main() async {
 Future<void> checkFirstRunAndForceLogoutIfNeeded() async {
   final loggedInPersonID = await AppSharedPreference.getLoggedInPersonId();
 
-  if (loggedInPersonID == null) {
+  if (loggedInPersonID == null && FirebaseAuth.instance.currentUser != null) {
     await FirebaseAuth.instance.signOut();
   }
 }

@@ -14,7 +14,10 @@ class DbHelper {
   static Database? _appDB;
 
   Future<Database> getDB() async {
-    return _appDB ?? _openDB();
+
+    _appDB ??= await _openDB();
+
+    return _appDB!;
   }
 
   Future<Database> _openDB() async {
