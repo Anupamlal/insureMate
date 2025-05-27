@@ -213,9 +213,7 @@ class _AddPolicyScreenState extends State<AddPolicyScreen> {
                       return null;
                     },
                     onTap: () async {
-                      DateTime? pickedDate = await _showDatePicker(
-                        AppString.startDateText,
-                      );
+                      DateTime? pickedDate = await _showDatePicker(_startDateDateTime ?? DateTime.now(), DateTime(1900), AppString.startDateText,);
                       if (pickedDate != null) {
                         setState(() {
                           _startDateDateTime = pickedDate;
@@ -232,9 +230,7 @@ class _AddPolicyScreenState extends State<AddPolicyScreen> {
                     placeholderText: AppString.fupDateText,
                     readOnly: true,
                     onTap: () async {
-                      DateTime? pickedDate = await _showDatePicker(
-                        AppString.fupDateText,
-                      );
+                      DateTime? pickedDate = await _showDatePicker( _FUPDateTime ?? DateTime.now(), _startDateDateTime ?? DateTime.now(), AppString.fupDateText);
                       if (pickedDate != null) {
                         setState(() {
                           _FUPDateTime = pickedDate;
@@ -268,12 +264,12 @@ class _AddPolicyScreenState extends State<AddPolicyScreen> {
     );
   }
 
-  Future<DateTime?> _showDatePicker(String datePickerName) async {
+  Future<DateTime?> _showDatePicker(DateTime initialDate, DateTime firstDate, String datePickerName) async {
     DateTime? dateTime = await showDatePicker(
       context: context,
       helpText: datePickerName,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
+      initialDate: initialDate,
+      firstDate: firstDate,
       lastDate: DateTime.now(),
     );
 

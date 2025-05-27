@@ -1,3 +1,9 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import '../helper/app_string.dart';
 
 enum PremiumMode {
@@ -80,7 +86,10 @@ class Policy {
     int? isUploaded = json["is_uploaded"];
     final String? phoneNumber = json["phone_number"];
 
-    int? finalFupDate = fupDate != null ? int.parse(fupDate) : null;
+    int? finalFupDate = null;
+    if (fupDate != null) {
+      finalFupDate = fupDate;
+    }
 
     final policy = Policy(
       policyholderName,
@@ -117,4 +126,67 @@ class Policy {
 
     return json;
   }
+
+  String getPolicyDueDate() {
+    final premiumDueDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
+    return DateFormat(
+      "dd/MM/yyyy",
+    ).format(premiumDueDate);
+  }
+
+  Widget getPolicyDueStatus() {
+    final premiumDueDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
+    final dueStatus = _getDueStatus(premiumDueDate);
+
+    return Row(
+      children: [
+        Text(dueStatus.label, style: TextStyle(color: dueStatus.color)),
+        Icon(dueStatus.icon, color:  dueStatus.color,)
+      ],
+    );
+  }
+
+  DueStatus _getDueStatus(DateTime nextPremiumDate) {
+    final today = DateTime.now();
+    final difference = nextPremiumDate.difference(today).inDays;
+
+    if (difference < 0) {
+      return DueStatus(
+        label: 'Overdue',
+        color: Color(0xFFE53935), // Red
+        icon: Icons.error_outline,
+        type: DueStatusType.overdue,
+      );
+    } else if (difference <= 15) {
+      return DueStatus(
+        label: 'Upcoming',
+        color: Color(0xFFFBC02D), // Amber
+        icon: Icons.access_time,
+        type: DueStatusType.upcoming,
+      );
+    } else {
+      return DueStatus(
+        label: 'Not Due',
+        color: Color(0xFF43A047), // Green
+        icon: Icons.check_circle_outline,
+        type: DueStatusType.notDue,
+      );
+    }
+  }
+}
+
+enum DueStatusType { overdue, upcoming, notDue }
+
+class DueStatus {
+  final String label;
+  final Color color;
+  final IconData icon;
+  final DueStatusType type;
+
+  DueStatus({
+    required this.label,
+    required this.color,
+    required this.icon,
+    required this.type,
+  });
 }
