@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insure_mate/generic_models/policy_model.dart';
 import 'package:insure_mate/helper/app_string.dart';
 import 'package:insure_mate/providers/policy_provider/policy_provider.dart';
+import 'package:insure_mate/screens/afterlogin_screens/2_search/policy_details_screen/screen/policy_details_screen.dart';
 import 'package:insure_mate/screens/afterlogin_screens/2_search/search_screen/Widget/policy_search_cell_widget.dart';
+import 'package:insure_mate/screens/afterlogin_screens/2_search/search_screen/service/search_service.dart';
 import 'package:insure_mate/theme/app_color.dart';
 import 'package:insure_mate/theme/app_text_style.dart';
 import 'package:insure_mate/widget/no_leading_space_formatter.dart';
@@ -22,11 +26,14 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Policy> _searchedPolicies = [];
   List<String> _recentSearch = [];
 
+  final searchService = SearchService();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _searchTextEditingController.addListener(_makeSearchedPolicy);
+    _recentSearch = searchService.getRecentSearches();
   }
 
   @override
@@ -199,6 +206,17 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _goToPolicyDetails(String policyId) {
+    String searchKey = _searchTextEditingController.text;
+    searchService.updateRecentSearches(searchKey, () {
+      setState(() {
+        _recentSearch = searchService.getRecentSearches();
+      });
+    });
     print("Policy id $policyId");
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PolicyDetailsScreen()),
+    );
   }
 }
