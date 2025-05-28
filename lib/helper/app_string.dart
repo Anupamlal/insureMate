@@ -54,4 +54,10 @@ class AppString {
   static const String halfYearlyText = "Half Yearly";
   static const String quarterlyText = "Quarterly";
   static const String monthlyText = "Monthly";
+  static const String policySearchPlaceholderText = "Type name, policy no. or mobile";
+  static const String recentSearchesText = "Recent Searches";
+  static const String noPolicyFoundText = "No policy found!";
+  static const String policySearchInfoText = "Start typing a name or policy number to search, or tap the mic to search by voice.";
+  static const String premiumText = "Premium:";
+  static const String modeText = "Mode:";
 }

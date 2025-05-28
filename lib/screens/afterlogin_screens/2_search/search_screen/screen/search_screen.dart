@@ -20,7 +20,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final _searchTextEditingController = TextEditingController();
   List<Policy> _allPolicies = [];
   List<Policy> _searchedPolicies = [];
-  List<String> _recentSearch = ['Anupam', 'Anup', '8198806', 'Rupam', 'Deepam'];
+  List<String> _recentSearch = [];
 
   @override
   void initState() {
@@ -37,10 +37,10 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         title: TextField(
           controller: _searchTextEditingController,
+          textCapitalization: TextCapitalization.words,
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.search),
-            hintText: "Type name, policy no. or mobile",
-
+            hintText: AppString.policySearchPlaceholderText,
             suffixIcon: IconButton(
               onPressed: _openVoiceRecognition,
               icon: Icon(Icons.mic),
@@ -56,7 +56,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
           return Container(
             color: AppColor.background,
-            child: _getSearchListBody((searchKey){
+            child: _getSearchListBody((searchKey) {
               _searchTextEditingController.text = searchKey;
             }),
           );
@@ -66,11 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _makeSearchedPolicy() {
-
-    print("_makeSearchedPolicy gets caled");
     String searchKey = _searchTextEditingController.text;
-
-    print("_makeSearchedPolicy $searchKey");
 
     if (searchKey.isEmpty) {
       _searchedPolicies.clear();
@@ -103,11 +99,17 @@ class _SearchScreenState extends State<SearchScreen> {
     }
 
     return _searchedPolicies.isNotEmpty
-        ? ListView.builder(
-          itemCount: _searchedPolicies.length,
-          itemBuilder: (_, index) {
-            return PolicySearchCell(policy: _searchedPolicies[index]);
-          },
+        ? Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: ListView.builder(
+            itemCount: _searchedPolicies.length,
+            itemBuilder: (_, index) {
+              return PolicySearchCell(
+                policy: _searchedPolicies[index],
+                onTap: _goToPolicyDetails,
+              );
+            },
+          ),
         )
         : _getWidgetForNoRecentOrSearchResults();
   }
@@ -125,7 +127,10 @@ class _SearchScreenState extends State<SearchScreen> {
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text("Recent Searches", style: AppTextStyle.titleMediumSemiBold),
+              child: Text(
+                AppString.recentSearchesText,
+                style: AppTextStyle.titleMediumSemiBold,
+              ),
             ),
           ),
           Container(
@@ -155,14 +160,15 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Row(
           children: [
             Icon(Icons.history),
-            SizedBox(width: 15,),
+            SizedBox(width: 15),
             Text(
               searchKey,
-              style: AppTextStyle.bodyMedium.apply(color: AppColor.textTertiary),
+              style: AppTextStyle.bodyMedium.apply(
+                color: AppColor.textTertiary,
+              ),
             ),
             Spacer(),
-            Transform.rotate(angle: 45,
-            child: Icon(Icons.arrow_back_outlined)),
+            Transform.rotate(angle: 45, child: Icon(Icons.arrow_back_outlined)),
           ],
         ),
       ),
@@ -170,17 +176,29 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _getWidgetForNoRecentOrSearchResults() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Center(
+    final screenSize = MediaQuery.of(context).size;
+
+    return SizedBox(
+      height: screenSize.height,
+      width: screenSize.width,
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: screenSize.height / 2.5,
+          left: 16,
+          right: 16,
+        ),
         child:
             _searchTextEditingController.text.isNotEmpty
-                ? Text("No policy found!")
+                ? Text(AppString.noPolicyFoundText, textAlign: TextAlign.center)
                 : Text(
-                  "Start typing a name or policy number to search, or tap the mic to search by voice.",
+                  AppString.policySearchInfoText,
                   textAlign: TextAlign.center,
                 ),
       ),
     );
+  }
+
+  void _goToPolicyDetails(String policyId) {
+    print("Policy id $policyId");
   }
 }
