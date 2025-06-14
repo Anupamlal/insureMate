@@ -8,7 +8,7 @@ import 'package:insure_mate/theme/app_text_style.dart';
 
 class PolicySearchCell extends StatelessWidget {
   final Policy policy;
-  final Function(String) onTap;
+  final Function(Policy) onTap;
 
   const PolicySearchCell({
     super.key,
@@ -26,7 +26,7 @@ class PolicySearchCell extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
-            onTap: () => onTap(policy.policyNo),
+            onTap: () => onTap(policy),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(

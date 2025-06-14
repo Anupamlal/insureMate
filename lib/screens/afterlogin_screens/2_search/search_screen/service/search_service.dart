@@ -7,14 +7,15 @@ class SearchService {
   List<String> _recentSearches = [];
 
   SearchService() {
-    _fetchRecentSearches();
+    print("SearchService init called");
   }
 
   List<String> getRecentSearches() => _recentSearches;
 
-  void _fetchRecentSearches() async {
+  Future<void> fetchRecentSearches() async {
     final allSearchesList = await AppSharedPreference.getRecentSearchesList();
     _recentSearches = allSearchesList ?? [];
+    print("_fetchRecentSearches done ${_recentSearches.length}");
   }
 
   void updateRecentSearches(String term, VoidCallback refreshSearchList) {

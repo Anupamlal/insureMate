@@ -33,14 +33,14 @@ class _SearchScreenState extends State<SearchScreen> {
     // TODO: implement initState
     super.initState();
     _searchTextEditingController.addListener(_makeSearchedPolicy);
-    _recentSearch = searchService.getRecentSearches();
+    fetchRecentSearchesOnLaunch();
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: AppColor.background,
       appBar: AppBar(
         title: TextField(
           controller: _searchTextEditingController,
@@ -91,6 +91,13 @@ class _SearchScreenState extends State<SearchScreen> {
         }).toList();
 
     setState(() {});
+  }
+
+  Future<void> fetchRecentSearchesOnLaunch() async {
+    print("fetch recent search gets called");
+    await searchService.fetchRecentSearches();
+    _recentSearch = searchService.getRecentSearches();
+    print("_recentSearch count is ${_recentSearch.length} ");
   }
 
   void _openVoiceRecognition() {}
@@ -205,18 +212,17 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void _goToPolicyDetails(String policyId) {
+  void _goToPolicyDetails(Policy policy) {
     String searchKey = _searchTextEditingController.text;
     searchService.updateRecentSearches(searchKey, () {
       setState(() {
         _recentSearch = searchService.getRecentSearches();
       });
     });
-    print("Policy id $policyId");
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PolicyDetailsScreen()),
+      MaterialPageRoute(builder: (context) => PolicyDetailsScreen(policy: policy)),
     );
   }
 }
