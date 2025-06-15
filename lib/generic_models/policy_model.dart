@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insure_mate/theme/app_text_style.dart';
 import 'package:intl/intl.dart';
 
 import '../helper/app_string.dart';
@@ -127,22 +128,83 @@ class Policy {
     return json;
   }
 
+  final Map<PremiumMode, int> _frequencyMap = {
+    PremiumMode.monthly: 1,
+    PremiumMode.quarterly: 3,
+    PremiumMode.halfYearly: 6,
+    PremiumMode.yearly: 12,
+  };
+
+  int getPremiumModeNoOfMonths() {
+    return _frequencyMap[premiumMode] ?? 1;
+  }
+
   String getPolicyDueDate() {
     final premiumDueDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
-    return DateFormat(
-      "dd/MM/yyyy",
-    ).format(premiumDueDate);
+    return DateFormat("dd/MM/yyyy").format(premiumDueDate);
+  }
+
+  String getPolicyStartDate() {
+    final premiumStartDate = DateTime.fromMillisecondsSinceEpoch(startDate);
+    return DateFormat("dd/MM/yyyy").format(premiumStartDate);
+  }
+
+  int getNoOfMissedTerms() {
+
+    int missedTerms = 0;
+
+    DateTime termDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
+    int termMonths = getPremiumModeNoOfMonths();
+
+    // Keep adding terms until the next due date is after paymentDate
+    while (termDate.isBefore(DateTime.now())) {
+      missedTerms += 1;
+      termDate = DateTime(termDate.year, termDate.month + termMonths, termDate.day);
+    }
+
+    return missedTerms;
+  }
+
+  double calculateTotalLateFee() {
+
+    final dueDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
+    final paymentDate = DateTime.now();
+    final premium = double.parse(premiumAmount);
+
+    int termMonths = getPremiumModeNoOfMonths();
+    double totalLateFee = 0.0;
+
+    DateTime termDueDate = dueDate;
+
+      int delayedMonths = (paymentDate.year - dueDate.year) * 12 +
+          (paymentDate.month - dueDate.month);
+
+      if (paymentDate.day < dueDate.day) {
+        delayedMonths -= 1;
+      }
+
+      delayedMonths = delayedMonths < 0 ? 0 : delayedMonths;
+
+      double lateFee = premium * 0.00792 * delayedMonths;
+      return double.parse(lateFee.toStringAsFixed(2)); // Rounded to 2 decimal
+
   }
 
   Widget getPolicyDueStatus() {
     final premiumDueDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
     final dueStatus = _getDueStatus(premiumDueDate);
 
-    return Row(
-      children: [
-        Text(dueStatus.label, style: TextStyle(color: dueStatus.color)),
-        Icon(dueStatus.icon, color:  dueStatus.color,)
-      ],
+    return Card(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: dueStatus.color,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+          child: Text(dueStatus.label, style: AppTextStyle.subTitleSmall.apply(color: Colors.white, fontWeightDelta: 2)),
+        ),
+      ),
     );
   }
 
@@ -154,21 +216,18 @@ class Policy {
       return DueStatus(
         label: 'Overdue',
         color: Color(0xFFE53935), // Red
-        icon: Icons.error_outline,
         type: DueStatusType.overdue,
       );
     } else if (difference <= 15) {
       return DueStatus(
         label: 'Upcoming',
         color: Color(0xFFFBC02D), // Amber
-        icon: Icons.access_time,
         type: DueStatusType.upcoming,
       );
     } else {
       return DueStatus(
         label: 'Not Due',
         color: Color(0xFF43A047), // Green
-        icon: Icons.check_circle_outline,
         type: DueStatusType.notDue,
       );
     }
@@ -180,13 +239,7 @@ enum DueStatusType { overdue, upcoming, notDue }
 class DueStatus {
   final String label;
   final Color color;
-  final IconData icon;
   final DueStatusType type;
 
-  DueStatus({
-    required this.label,
-    required this.color,
-    required this.icon,
-    required this.type,
-  });
+  DueStatus({required this.label, required this.color, required this.type});
 }
