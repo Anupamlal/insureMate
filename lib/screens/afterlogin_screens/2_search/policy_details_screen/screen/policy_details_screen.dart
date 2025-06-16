@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insure_mate/helper/app_helper.dart';
 import 'package:insure_mate/helper/app_string.dart';
+import 'package:insure_mate/screens/afterlogin_screens/2_search/policy_details_screen/service/policy_detail_service.dart';
 
 import '../../../../../generic_models/policy_model.dart';
 import '../../../../../theme/app_color.dart';
@@ -10,7 +11,9 @@ import '../../../../../theme/app_text_style.dart';
 class PolicyDetailsScreen extends StatelessWidget {
 
   final Policy policy;
-  const PolicyDetailsScreen({super.key, required this.policy});
+  PolicyDetailsScreen({super.key, required this.policy});
+
+  late PolicyDetailService policyService = PolicyDetailService(policy);
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +115,7 @@ class PolicyDetailsScreen extends StatelessWidget {
                         children: [
                           Text(AppString.premiumAmountText),
                           Spacer(),
-                          Text("${AppHelper.rupee}${policy.premiumAmount}")
+                          Text("${AppHelper.rupee}${policy.premiumAmountValue()}")
                         ],
                       ),
 
@@ -120,15 +123,58 @@ class PolicyDetailsScreen extends StatelessWidget {
                         children: [
                           Text("Terms Due"),
                           Spacer(),
-                          Text("${policy.getNoOfMissedTerms()}")
+                          Text("${policyService.totalTermsDue()}")
                         ],
                       ),
 
                       Row(
                         children: [
-                          Text("Late fee"),
+                          Text("Total Due Premium"),
                           Spacer(),
-                          Text("${policy.calculateTotalLateFee()}")
+                          Text("${AppHelper.rupee}${policyService.getTotalPremiumAmount()}")
+                        ],
+                      ),
+
+                      Row(
+                        children: [
+                          Text("Premium GST"),
+                          Spacer(),
+                          Text("${AppHelper.rupee}${policyService.getTotalGSTOnPremium()}")
+                        ],
+                      ),
+
+                      Row(
+                        children: [
+                          Text("Late Fee"),
+                          Spacer(),
+                          Text("${AppHelper.rupee}${policyService.totalLateFee()}")
+                        ],
+                      ),
+
+                      Row(
+                        children: [
+                          Text("Late Fee GST"),
+                          Spacer(),
+                          Text("${AppHelper.rupee}${policyService.getTotalGSTOnLateFee()}")
+                        ],
+                      ),
+
+                      SizedBox(height: 10,),
+
+                      Row(
+                        children: [
+                          Text("Total Paid Amount", style: AppTextStyle.titleMediumSemiBold,),
+                          Spacer(),
+                          Text("${AppHelper.rupee}${policyService.getTotalPaidAmount()}", style: AppTextStyle.titleMedium,)
+                        ],
+                      ),
+
+
+                      Row(
+                        children: [
+                          Text("Estimated Commission", style: AppTextStyle.titleMediumSemiBold,),
+                          Spacer(),
+                          Text("${AppHelper.rupee}${policyService.getTotalPaidAmount()}", style: AppTextStyle.titleMedium,)
                         ],
                       ),
                     ],

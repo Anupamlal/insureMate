@@ -139,6 +139,8 @@ class Policy {
     return _frequencyMap[premiumMode] ?? 1;
   }
 
+  double premiumAmountValue () => double.parse(premiumAmount);
+
   String getPolicyDueDate() {
     final premiumDueDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
     return DateFormat("dd/MM/yyyy").format(premiumDueDate);
@@ -147,47 +149,6 @@ class Policy {
   String getPolicyStartDate() {
     final premiumStartDate = DateTime.fromMillisecondsSinceEpoch(startDate);
     return DateFormat("dd/MM/yyyy").format(premiumStartDate);
-  }
-
-  int getNoOfMissedTerms() {
-
-    int missedTerms = 0;
-
-    DateTime termDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
-    int termMonths = getPremiumModeNoOfMonths();
-
-    // Keep adding terms until the next due date is after paymentDate
-    while (termDate.isBefore(DateTime.now())) {
-      missedTerms += 1;
-      termDate = DateTime(termDate.year, termDate.month + termMonths, termDate.day);
-    }
-
-    return missedTerms;
-  }
-
-  double calculateTotalLateFee() {
-
-    final dueDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
-    final paymentDate = DateTime.now();
-    final premium = double.parse(premiumAmount);
-
-    int termMonths = getPremiumModeNoOfMonths();
-    double totalLateFee = 0.0;
-
-    DateTime termDueDate = dueDate;
-
-      int delayedMonths = (paymentDate.year - dueDate.year) * 12 +
-          (paymentDate.month - dueDate.month);
-
-      if (paymentDate.day < dueDate.day) {
-        delayedMonths -= 1;
-      }
-
-      delayedMonths = delayedMonths < 0 ? 0 : delayedMonths;
-
-      double lateFee = premium * 0.00792 * delayedMonths;
-      return double.parse(lateFee.toStringAsFixed(2)); // Rounded to 2 decimal
-
   }
 
   Widget getPolicyDueStatus() {
@@ -209,10 +170,17 @@ class Policy {
   }
 
   DueStatus _getDueStatus(DateTime nextPremiumDate) {
+
     final today = DateTime.now();
     final difference = nextPremiumDate.difference(today).inDays;
 
-    if (difference < 0) {
+    if (difference <= 180) {
+      return DueStatus(
+        label: 'Lapsed',
+        color: Color(0xFFE53935), // Red
+        type: DueStatusType.lapsed,
+      );
+    }else if (difference < 0) {
       return DueStatus(
         label: 'Overdue',
         color: Color(0xFFE53935), // Red
@@ -234,7 +202,7 @@ class Policy {
   }
 }
 
-enum DueStatusType { overdue, upcoming, notDue }
+enum DueStatusType { lapsed, overdue, upcoming, notDue }
 
 class DueStatus {
   final String label;
