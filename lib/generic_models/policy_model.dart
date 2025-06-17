@@ -152,8 +152,7 @@ class Policy {
   }
 
   Widget getPolicyDueStatus() {
-    final premiumDueDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
-    final dueStatus = _getDueStatus(premiumDueDate);
+    final dueStatus = _getDueStatus();
 
     return Card(
       child: Container(
@@ -168,13 +167,19 @@ class Policy {
       ),
     );
   }
+  
+  DueStatusType currentDueStatusType() {
+    return _getDueStatus().type;
+  }
 
-  DueStatus _getDueStatus(DateTime nextPremiumDate) {
+  DueStatus _getDueStatus() {
+
+    final nextPremiumDate = DateTime.fromMillisecondsSinceEpoch(nextDueDate);
 
     final today = DateTime.now();
     final difference = nextPremiumDate.difference(today).inDays;
 
-    if (difference <= 180) {
+    if (difference <= -180) {
       return DueStatus(
         label: 'Lapsed',
         color: Color(0xFFE53935), // Red

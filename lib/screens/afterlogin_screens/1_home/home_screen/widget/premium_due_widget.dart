@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insure_mate/helper/app_helper.dart';
 import 'package:insure_mate/widget/app_button_widget.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../helper/app_string.dart';
 import '../../../../../theme/app_text_style.dart';
@@ -36,7 +37,9 @@ class _PremiumDueWidgetState extends State<PremiumDueWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${AppString.premiumDueInText} ${AppHelper.monthNames[DateTime.now().month - 1]}",
+              "${AppString.premiumDueInText} ${DateFormat(
+                "MMMM",
+              ).format(DateTime.now())}",
               style: AppTextStyle.titleLargeSemiBold,
             ),
 

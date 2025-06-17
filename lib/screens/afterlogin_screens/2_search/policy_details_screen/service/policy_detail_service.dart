@@ -5,6 +5,8 @@ class PolicyDetailService {
   final Policy policy;
   int _numberOfMissedTerms = 0;
   int _numberOfFirstYearTerms = 0;
+  int _numberOfSecondYearTerms = 0;
+  int _numberOfThirdYearTerms = 0;
   double _totalLateFee = 0;
   double _totalPremiumAmount = 0;
 
@@ -21,16 +23,18 @@ class PolicyDetailService {
   double getTotalGSTOnPremium() {
     if (_numberOfFirstYearTerms > 0) {
       int remainingTerms = _numberOfMissedTerms - _numberOfFirstYearTerms;
-      return (_numberOfFirstYearTerms *
-              policy.premiumAmountValue() *
-              AppHelper.premiumGSTRateMap[1]!) +
-          (remainingTerms *
-              policy.premiumAmountValue() *
-              AppHelper.premiumGSTRateMap[2]!);
+      return ((_numberOfFirstYearTerms *
+                  policy.premiumAmountValue() *
+                  AppHelper.premiumGSTRateMap[1]!) +
+              (remainingTerms *
+                  policy.premiumAmountValue() *
+                  AppHelper.premiumGSTRateMap[2]!))
+          .roundToDouble();
     }
-    return (_totalPremiumAmount * AppHelper.premiumGSTRateMap[2]!).roundToDouble();
+    return (_totalPremiumAmount * AppHelper.premiumGSTRateMap[2]!)
+        .roundToDouble();
   }
-  
+
   double getTotalGSTOnLateFee() {
     return (_totalLateFee * AppHelper.lateFeeGSTRate).roundToDouble();
   }
@@ -59,7 +63,16 @@ class PolicyDetailService {
 
       if (withinFirstYear) {
         _numberOfFirstYearTerms++;
+      } else if (termDate.isBefore(
+        premiumStartDate.add(Duration(days: 365 * 2)),
+      )) {
+        _numberOfSecondYearTerms++;
+      } else if (termDate.isBefore(
+        premiumStartDate.add(Duration(days: 365 * 3)),
+      )) {
+        _numberOfThirdYearTerms++;
       }
+
     }
 
     _numberOfMissedTerms = missedTerms;
@@ -70,10 +83,16 @@ class PolicyDetailService {
       policy.nextDueDate,
     );
     final paymentDate = DateTime.now();
+
+    if (paymentDate.year == premiumDueDate.year && (paymentDate.month - premiumDueDate.month <= 1)){
+      _totalLateFee = 0;
+      return;
+    }
+
     final premium = policy.premiumAmountValue();
 
     int termMonths = policy.getPremiumModeNoOfMonths();
-    const double monthlyRate = 0.00792;
+    double monthlyRate = AppHelper.lateFeeRate;
 
     DateTime termDueDate = premiumDueDate;
     double totalLateFee = 0.0;
@@ -82,8 +101,6 @@ class PolicyDetailService {
       int delayedMonths =
           (paymentDate.year - termDueDate.year) * 12 +
           (paymentDate.month - termDueDate.month);
-
-      if (paymentDate.day < termDueDate.day) delayedMonths--;
 
       delayedMonths = delayedMonths < 0 ? 0 : delayedMonths;
 
@@ -101,8 +118,26 @@ class PolicyDetailService {
   }
 
   double getTotalPaidAmount() {
-    return _totalPremiumAmount + getTotalGSTOnPremium() + _totalLateFee + getTotalGSTOnLateFee();
+    return _totalPremiumAmount +
+        getTotalGSTOnPremium() +
+        _totalLateFee +
+        getTotalGSTOnLateFee();
   }
 
+  double getExpectedCommission() {
+    double firstYearCommissionRate = AppHelper.agentCommissionRate[1]!;
+    double secondYearCommissionRate = AppHelper.agentCommissionRate[2]!;
+    double thirdYearCommissionRate = AppHelper.agentCommissionRate[3]!;
+    double remainingYearCommissionRate = AppHelper.agentCommissionRate[4]!;
 
+    return double.parse((policy.premiumAmountValue() *
+        (firstYearCommissionRate * _numberOfFirstYearTerms +
+            secondYearCommissionRate * _numberOfSecondYearTerms +
+            thirdYearCommissionRate * _numberOfThirdYearTerms +
+            remainingYearCommissionRate *
+                (_numberOfMissedTerms -
+                    (_numberOfFirstYearTerms +
+                        _numberOfSecondYearTerms +
+                        _numberOfThirdYearTerms)))).toStringAsFixed(2));
+  }
 }

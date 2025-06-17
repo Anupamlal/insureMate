@@ -58,6 +58,15 @@ class AppString {
   static const String recentSearchesText = "Recent Searches";
   static const String noPolicyFoundText = "No policy found!";
   static const String policySearchInfoText = "Start typing a name or policy number to search, or tap the mic to search by voice.";
-  static const String premiumText = "Premium:";
-  static const String modeText = "Mode:";
+  static const String policyInfoText = "Policy Info";
+  static const String premiumInfoText = "Premium Info";
+  static const String dueDateText = "Due Date";
+  static const String termsDueText = "Terms Due";
+  static const String totalDuePremiumText = "Total Due Premium";
+  static const String premiumGSTText = "Premium GST";
+  static const String lateFeeText = "Late Fee";
+  static const String lateFeeGSTText = "Late Fee GST";
+  static const String totalRevivalAmountText = "Total Revival Amount";
+  static const String totalRenewalAmountText = "Total Renewal Amount";
+  static const String markAsPaidText = "Mark as Paid";
 }

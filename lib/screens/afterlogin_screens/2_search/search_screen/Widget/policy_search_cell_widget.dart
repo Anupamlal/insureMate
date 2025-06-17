@@ -48,7 +48,7 @@ class PolicySearchCell extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "${AppString.premiumText}    ",
+                        "${AppString.premiumAmountText}:    ",
                         style: AppTextStyle.labelLarge.apply(
                           color: AppColor.textSecondary,
                         ),
@@ -64,13 +64,13 @@ class PolicySearchCell extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "${AppString.modeText}    ",
+                        "${AppString.policyNumberText}:    ",
                         style: AppTextStyle.labelLarge.apply(
                           color: AppColor.textSecondary,
                         ),
                       ),
                       Text(
-                        policy.premiumMode.rawValue,
+                        policy.policyNo,
                         style: AppTextStyle.labelLarge.apply(
                           color: AppColor.primary,
                         ),

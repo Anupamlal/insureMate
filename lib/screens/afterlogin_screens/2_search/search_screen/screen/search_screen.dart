@@ -87,7 +87,9 @@ class _SearchScreenState extends State<SearchScreen> {
           return policy.policyholderName.toLowerCase().contains(
                 lowerSearchKey,
               ) ||
-              policy.policyNo.toLowerCase().contains(lowerSearchKey);
+              policy.policyNo.toLowerCase().contains(lowerSearchKey) ||
+              (policy.phoneNumber != null &&
+                  policy.phoneNumber!.contains(lowerSearchKey));
         }).toList();
 
     setState(() {});
@@ -222,7 +224,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PolicyDetailsScreen(policy: policy)),
+      MaterialPageRoute(
+        builder: (context) => PolicyDetailsScreen(policy: policy),
+      ),
     );
   }
 }

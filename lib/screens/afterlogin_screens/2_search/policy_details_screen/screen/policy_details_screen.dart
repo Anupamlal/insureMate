@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:insure_mate/helper/app_helper.dart';
 import 'package:insure_mate/helper/app_string.dart';
 import 'package:insure_mate/screens/afterlogin_screens/2_search/policy_details_screen/service/policy_detail_service.dart';
+import 'package:insure_mate/screens/afterlogin_screens/2_search/policy_details_screen/widget/policy_detail_row.dart';
+import 'package:insure_mate/widget/app_button_widget.dart';
 
 import '../../../../../generic_models/policy_model.dart';
 import '../../../../../theme/app_color.dart';
 import '../../../../../theme/app_text_style.dart';
 
 class PolicyDetailsScreen extends StatelessWidget {
-
   final Policy policy;
   PolicyDetailsScreen({super.key, required this.policy});
 
@@ -39,52 +40,43 @@ class PolicyDetailsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 10,
                     children: [
-                      Text("Policy Info", style: AppTextStyle.titleLargeSemiBold),
-
-                      Row(
-                        children: [
-                          Text(AppString.policyholderNameText),
-                          Spacer(),
-                          Text(policy.policyholderName)
-                        ],
+                      Text(
+                        AppString.policyInfoText,
+                        style: AppTextStyle.titleLargeSemiBold,
                       ),
 
-                      if (policy.phoneNumber != null && policy.phoneNumber!.isNotEmpty) Row(
-                        children: [
-                          Text(AppString.phoneNumberText),
-                          Spacer(),
-                          Text(policy.phoneNumber!)
-                        ],
+                      PolicyDetailRow(
+                        rowName: AppString.policyholderNameText,
+                        rowValue: policy.policyholderName,
                       ),
 
-                      Row(
-                        children: [
-                          Text(AppString.policyNumberText),
-                          Spacer(),
-                          Text(policy.policyNo)
-                        ],
+                      if (policy.phoneNumber != null &&
+                          policy.phoneNumber!.isNotEmpty)
+                        PolicyDetailRow(
+                          rowName: AppString.phoneNumberText,
+                          rowValue: policy.phoneNumber!,
+                        ),
+
+                      PolicyDetailRow(
+                        rowName: AppString.policyNumberText,
+                        rowValue: policy.policyNo,
                       ),
 
-                      Row(
-                        children: [
-                          Text("Start Date"),
-                          Spacer(),
-                          Text(policy.getPolicyStartDate())
-                        ],
+                      PolicyDetailRow(
+                        rowName: AppString.startDateText,
+                        rowValue: policy.getPolicyStartDate(),
                       ),
 
-                      Row(
-                        children: [
-                          Text("Premium Mode"),
-                          Spacer(),
-                          Text(policy.premiumMode.rawValue)
-                        ],
+                      PolicyDetailRow(
+                        rowName: AppString.premiumModeText,
+                        rowValue: policy.premiumMode.rawValue,
                       ),
                     ],
                   ),
                 ),
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Card(
@@ -94,100 +86,111 @@ class PolicyDetailsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 10,
                     children: [
-
                       Row(
                         children: [
-                          Text("Premium Info", style: AppTextStyle.titleLargeSemiBold),
+                          Text(
+                            AppString.premiumInfoText,
+                            style: AppTextStyle.titleLargeSemiBold,
+                          ),
                           Spacer(),
-                          policy.getPolicyDueStatus()
+                          policy.getPolicyDueStatus(),
                         ],
                       ),
 
-                      Row(
-                        children: [
-                          Text("Due Date"),
-                          Spacer(),
-                          Text(policy.getPolicyDueDate())
-                        ],
+                      PolicyDetailRow(
+                        rowName: AppString.dueDateText,
+                        rowValue: policy.getPolicyDueDate(),
                       ),
 
-                      Row(
-                        children: [
-                          Text(AppString.premiumAmountText),
-                          Spacer(),
-                          Text("${AppHelper.rupee}${policy.premiumAmountValue()}")
-                        ],
+                      PolicyDetailRow(
+                        rowName: AppString.premiumAmountText,
+                        rowValue:
+                            "${AppHelper.rupee}${policy.premiumAmountValue()}",
                       ),
 
-                      Row(
-                        children: [
-                          Text("Terms Due"),
-                          Spacer(),
-                          Text("${policyService.totalTermsDue()}")
-                        ],
-                      ),
-
-                      Row(
-                        children: [
-                          Text("Total Due Premium"),
-                          Spacer(),
-                          Text("${AppHelper.rupee}${policyService.getTotalPremiumAmount()}")
-                        ],
-                      ),
-
-                      Row(
-                        children: [
-                          Text("Premium GST"),
-                          Spacer(),
-                          Text("${AppHelper.rupee}${policyService.getTotalGSTOnPremium()}")
-                        ],
-                      ),
-
-                      Row(
-                        children: [
-                          Text("Late Fee"),
-                          Spacer(),
-                          Text("${AppHelper.rupee}${policyService.totalLateFee()}")
-                        ],
-                      ),
-
-                      Row(
-                        children: [
-                          Text("Late Fee GST"),
-                          Spacer(),
-                          Text("${AppHelper.rupee}${policyService.getTotalGSTOnLateFee()}")
-                        ],
-                      ),
-
-                      SizedBox(height: 10,),
-
-                      Row(
-                        children: [
-                          Text("Total Paid Amount", style: AppTextStyle.titleMediumSemiBold,),
-                          Spacer(),
-                          Text("${AppHelper.rupee}${policyService.getTotalPaidAmount()}", style: AppTextStyle.titleMedium,)
-                        ],
-                      ),
-
-
-                      Row(
-                        children: [
-                          Text("Estimated Commission", style: AppTextStyle.titleMediumSemiBold,),
-                          Spacer(),
-                          Text("${AppHelper.rupee}${policyService.getTotalPaidAmount()}", style: AppTextStyle.titleMedium,)
-                        ],
-                      ),
+                      if (policy.currentDueStatusType() != DueStatusType.notDue)
+                        getDuePremiumDetails(),
                     ],
                   ),
                 ),
               ),
             ),
+
+            if (policy.currentDueStatusType() != DueStatusType.notDue)
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                child: AppButton(buttonName: AppString.markAsPaidText, onTap: () {}),
+              ),
           ],
         ),
       ),
     );
   }
 
+  Widget getDuePremiumDetails() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 10,
 
+      children: [
+        PolicyDetailRow(
+          rowName: AppString.termsDueText,
+          rowValue: "${policyService.totalTermsDue()}",
+        ),
 
+        PolicyDetailRow(
+          rowName: AppString.totalDuePremiumText,
+          rowValue:
+              "${AppHelper.rupee}${policyService.getTotalPremiumAmount()}",
+        ),
+
+        PolicyDetailRow(
+          rowName: AppString.premiumGSTText,
+          rowValue: "${AppHelper.rupee}${policyService.getTotalGSTOnPremium()}",
+        ),
+
+        PolicyDetailRow(
+          rowName: AppString.lateFeeText,
+          rowValue: "${AppHelper.rupee}${policyService.totalLateFee()}",
+        ),
+
+        PolicyDetailRow(
+          rowName: AppString.lateFeeGSTText,
+          rowValue: "${AppHelper.rupee}${policyService.getTotalGSTOnLateFee()}",
+        ),
+
+        SizedBox(height: 10),
+
+        Row(
+          children: [
+            Text(
+              policy.currentDueStatusType() == DueStatusType.lapsed
+                  ? AppString.totalRevivalAmountText
+                  : AppString.totalRenewalAmountText,
+              style: AppTextStyle.titleMediumSemiBold,
+            ),
+            Spacer(),
+            Text(
+              "${AppHelper.rupee}${policyService.getTotalPaidAmount()}",
+              style: AppTextStyle.titleMedium,
+            ),
+          ],
+        ),
+
+        Row(
+          children: [
+            Text(
+              AppString.estimatedCommissionText,
+              style: AppTextStyle.titleMediumSemiBold,
+            ),
+            Spacer(),
+            Text(
+              "${AppHelper.rupee}${policyService.getExpectedCommission()}",
+              style: AppTextStyle.titleMedium,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }
